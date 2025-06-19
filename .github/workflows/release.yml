@@ -34,17 +34,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew :patches:buildAndroid clean
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
+      - name: Find build artifact
+        id: find-artifact
+        run: |
+          echo "artifact_path=$(find patches/build -type f -name '*.rvp' | head -n 1)" >> $GITHUB_OUTPUT
+      
+      - name: Show found artifact
+        run: echo "Arquivo encontrado em ${{ steps.find-artifact.outputs.artifact_path }}"
+      
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: patches-build
-          path: patches/build/libs/
+          path: ${{ steps.find-artifact.outputs.artifact_path }}
+
