@@ -1,4 +1,4 @@
-name: Release
+name: Build Only
 
 on:
   workflow_dispatch:
@@ -8,13 +8,11 @@ on:
       - dev
 
 jobs:
-  release:
-    name: Release
+  build:
+    name: Build
     permissions:
-      contents: write
-      packages: write
-      id-token: write
-      attestations: write
+      contents: read
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -45,14 +43,23 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Release
-        uses: cycjimmy/semantic-release-action@v4
-        id: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Attest
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-name: 'ReVanced Patches ${{ steps.release.outputs.new_release_git_tag }}'
-          subject-path: patches/build/libs/patches-*.rvp
+# Comentado: removidas etapas de release e attest
+#      - name: Import GPG key
+#        uses: crazy-max/ghaction-import-gpg@v6
+#        with:
+#          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+#          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+#          fingerprint: ${{ vars.GPG_FINGERPRINT }}
+
+#      - name: Release
+#        uses: cycjimmy/semantic-release-action@v4
+#        id: release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Attest
+#        if: steps.release.outputs.new_release_published == 'true'
+#        uses: actions/attest-build-provenance@v2
+#        with:
+#          subject-name: 'ReVanced Patches ${{ steps.release.outputs.new_release_git_tag }}'
+#          subject-path: patches/build/libs/patches-*.rvp
