@@ -1,3 +1,5 @@
+## [1.0.1](https://github.com/arthurbolsoni/revanced-patches/compare/v1.0.0...v1.0.1) (2025-06-19)
+
 # [5.27.0](https://github.com/ReVanced/revanced-patches/compare/v5.26.0...v5.27.0) (2025-06-09)
 
 
